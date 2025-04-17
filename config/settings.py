@@ -42,13 +42,14 @@ INSTALLED_APPS = [
 
     # 3rd party apps:
     'rest_framework',
-    # 'djoser',
-    # 'drf_yasg',
+    'djoser',
+    'drf_yasg',
 
     # local apps:
     'core',
     'tasks',
     'projects',
+    'pages',
 ]
 
 MIDDLEWARE = [
