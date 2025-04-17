@@ -1,11 +1,16 @@
 from rest_framework import viewsets, filters, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-# from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from .models import Task
 from .serializers import TaskSerializer
 
 class TaskViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for managing tasks in the system.
+    Provides CRUD operations and custom actions for task management.
+    """
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
@@ -23,6 +28,23 @@ class TaskViewSet(viewsets.ModelViewSet):
             assigned_to=self.request.user
         )
 
+    @swagger_auto_schema(
+        method='post',
+        operation_description='Assign a task to a specific user',
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['user_id'],
+            properties={
+                'user_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID of the user to assign the task to')
+            }
+        ),
+        responses={
+            200: TaskSerializer,
+            400: 'Bad Request - user_id is required',
+            403: 'Permission Denied - Only project owner or collaborators can assign tasks',
+            404: 'Not Found - Task not found'
+        }
+    )
     @action(detail=True, methods=['post'])
     def assign(self, request, pk=None):
         task = self.get_object()
