@@ -39,6 +39,35 @@
                 <i class="fab fa-github"></i> GitHub
               </a>
             </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="apiDocsDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fas fa-book"></i> API Docs
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="apiDocsDropdown">
+                <li>
+                  <a class="dropdown-item" href="/api/" target="_blank"
+                    >API Endpoints</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/swagger/" target="_blank"
+                    >Swagger UI</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/redoc/" target="_blank"
+                    >ReDoc</a
+                  >
+                </li>
+              </ul>
+            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'project-list' %}">Projects</a>
