@@ -36,8 +36,7 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
-    url=settings.SITE_URL,  # Get URL from environment
-    schemes=['http', 'https'],  # Allow both HTTP and HTTPS
+    url=settings.SITE_URL  # Get URL from environment
 )
 
 router = DefaultRouter()
