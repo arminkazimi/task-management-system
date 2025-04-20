@@ -30,6 +30,8 @@ class TaskViewSet(viewsets.ModelViewSet):
             project__owner=self.request.user
         ) | Task.objects.filter(
             assigned_to=self.request.user
+        ) | Task.objects.filter(
+            created_by=self.request.user
         )
 
     @swagger_auto_schema(
