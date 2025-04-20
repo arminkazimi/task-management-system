@@ -159,6 +159,6 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 
 }
-
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='').split(',')
 # my settings
 LOCAL_RUN = config('LOCAL_RUN', default='True', cast=bool)
