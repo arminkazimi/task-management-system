@@ -63,6 +63,14 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# # Security settings for HTTPS
+# SECURE_SSL_REDIRECT = not DEBUG
+# SESSION_COOKIE_SECURE = not DEBUG
+# CSRF_COOKIE_SECURE = not DEBUG
+# SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0  # 1 year in production
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+# SECURE_HSTS_PRELOAD = not DEBUG
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if not DEBUG else None
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -156,13 +164,11 @@ SIMPLE_JWT = {
 
 }
 CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='').split(',')
-# my settings
-LOCAL_RUN = config('LOCAL_RUN', default='True', cast=bool)
-
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
+SITE_URL = config('SITE_URL', default='http://localhost:8000')
 
 # # Additional CORS settings
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_METHODS = [
 #     'DELETE',
 #     'GET',
@@ -183,3 +189,7 @@ CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='').split(',')
 #     'x-csrftoken',
 #     'x-requested-with',
 # ]
+
+
+# my settings
+LOCAL_RUN = config('LOCAL_RUN', default='True', cast=bool)

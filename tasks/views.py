@@ -20,6 +20,8 @@ class TaskViewSet(viewsets.ModelViewSet):
     ordering = ['-created_at']
 
     def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+            return Task.objects.none()
         if self.request.user.is_superuser:
             return Task.objects.all()
         return Task.objects.filter(

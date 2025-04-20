@@ -19,6 +19,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     ordering = ['-created_at']
 
     def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False):
+            return Project.objects.none()
         if self.request.user.is_superuser:
             return Project.objects.all()
         return Project.objects.filter(
