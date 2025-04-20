@@ -20,6 +20,8 @@ class TaskViewSet(viewsets.ModelViewSet):
     ordering = ['-created_at']
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Task.objects.all()
         return Task.objects.filter(
             project__collaborators=self.request.user
         ) | Task.objects.filter(

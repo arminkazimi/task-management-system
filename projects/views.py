@@ -19,6 +19,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     ordering = ['-created_at']
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Project.objects.all()
         return Project.objects.filter(
             collaborators=self.request.user
         ) | Project.objects.filter(
