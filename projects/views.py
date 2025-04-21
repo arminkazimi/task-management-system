@@ -1,12 +1,12 @@
+from django.contrib.auth import get_user_model
 from rest_framework import viewsets, filters, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth.models import User
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from .models import Project
 from .serializers import ProjectSerializer
-
+User = get_user_model()
 class ProjectViewSet(viewsets.ModelViewSet):
     """ViewSet for managing projects in the system.
     Provides CRUD operations and collaboration management."""
