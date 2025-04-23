@@ -67,7 +67,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
                           status=status.HTTP_404_NOT_FOUND)
 
     @swagger_auto_schema(
-        method='post',
+        method='delete',
         operation_description='Remove a collaborator from the project',
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
@@ -77,13 +77,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
             }
         ),
         responses={
-            200: ProjectSerializer,
+            204: ProjectSerializer,
             400: 'Bad Request - user_id is required',
             403: 'Permission Denied - Only project owner can remove collaborators',
             404: 'Not Found - User not found'
         }
     )
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['delete'])
     def remove_collaborator(self, request, pk=None):
         project = self.get_object()
         user_id = request.data.get('user_id')
@@ -97,8 +97,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         try:
             user = User.objects.get(id=user_id)
+            if user not in project.collaborators.all():
+                return Response({'error': 'User is not a collaborator of this project'}, 
+                              status=status.HTTP_400_BAD_REQUEST)
             project.collaborators.remove(user)
-            return Response(ProjectSerializer(project).data)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, 
                           status=status.HTTP_404_NOT_FOUND)
